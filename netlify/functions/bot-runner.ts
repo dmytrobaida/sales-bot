@@ -37,7 +37,6 @@ async function sendSalesNews() {
 }
 
 const handler: Handler = async (event, context) => {
-    console.log("Starting sales update");
     await sendSalesNews();
     return {
         statusCode: 200,
@@ -45,5 +44,3 @@ const handler: Handler = async (event, context) => {
 };
 
 export { handler };
-
-// sendSalesNews();

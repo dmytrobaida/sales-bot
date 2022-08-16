@@ -1,2 +1,2 @@
 [functions."bot-runner"]
-schedule = "* * * * *"
+schedule = "0 6,17 * * *"
