@@ -36,11 +36,13 @@ async function sendSalesNews() {
     });
 }
 
-export const handler: Handler = async (event, context) => {
+const handler: Handler = async (event, context) => {
     await sendSalesNews();
     return {
         statusCode: 200,
     };
 };
+
+export { handler };
 
 // sendSalesNews();
