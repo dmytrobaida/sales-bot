@@ -1,0 +1,12 @@
+{
+  "name": "sales-bot",
+  "version": "1.0.0",
+  "description": "telegram bot which crowls websites to find best prices",
+  "main": "index.js",
+  "repository": "https://github.com/dmytrobaida/sales-bot",
+  "author": "Dmytro Baida",
+  "license": "MIT",
+  "dependencies": {
+    "@netlify/functions": "^1.2.0"
+  }
+}
