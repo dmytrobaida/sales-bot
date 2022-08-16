@@ -1,2 +1,2 @@
 [functions."bot-runner"]
-schedule = "@hourly"
+schedule = "0 9,21 * * *"

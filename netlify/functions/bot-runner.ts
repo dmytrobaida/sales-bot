@@ -2,7 +2,7 @@ import 'dotenv/config';
 
 import { Handler } from "@netlify/functions";
 import TelegramBot, { InputMediaPhoto } from "node-telegram-bot-api";
-import { parseNam } from './nam-parser.js';
+import { parseNam } from './utils/nam-parser.js';
 
 const token = process.env.TELEGRAM_API_TOKEN;
 const adminChatId = process.env.ADMIN_CHAT_ID;
@@ -10,11 +10,11 @@ const newsReceivers = process.env.NEWS_RECEIVERS?.split(' ');
 
 const bot = new TelegramBot(token, { polling: true });
 
-bot.onText(/\/register/, (msg) => {
-    const chatId = msg.chat.id;
-    console.log(msg);
-    bot.sendMessage(adminChatId, `Користувач ID:${chatId} хоче приєднатися до боту!`);
-});
+// bot.onText(/\/register/, (msg) => {
+//     const chatId = msg.chat.id;
+//     console.log(msg);
+//     bot.sendMessage(adminChatId, `Користувач ID:${chatId} хоче приєднатися до боту!`);
+// });
 
 async function sendSalesNews() {
     if (newsReceivers == null) {
@@ -43,4 +43,4 @@ export const handler: Handler = async (event, context) => {
     };
 };
 
-sendSalesNews();
+// sendSalesNews();
