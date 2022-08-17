@@ -17,14 +17,18 @@ const bot = new TelegramBot(token, { polling: true });
 // });
 
 async function sendSalesNews() {
+    console.log(`News receivers: ${JSON.stringify(newsReceivers)}`);
     if (newsReceivers == null) {
         return;
     }
 
     const sales = await parseNam();
+    console.log(`Sales: ${JSON.stringify(sales)}`);
 
     newsReceivers.forEach(async receiver => {
-        await bot.sendMessage(receiver, `Привіт! Лови знижки NAM:)`);
+        console.log(`Sending update to: ${receiver}`);
+
+        const message = await bot.sendMessage(receiver, `Привіт! Лови знижки NAM:)`);
 
         const media: InputMediaPhoto[] = sales.map(sl => ({
             type: 'photo',
@@ -32,12 +36,18 @@ async function sendSalesNews() {
             caption: `Назва: ${sl.productName}\nЗнижка: ${sl.discount}\nЦіна без знижки: ${sl.regularPrice}\nЦіна зі знижкою: ${sl.salePrice}\nПосилання: ${sl.productLink}`,
         }));
 
-        await bot.sendMediaGroup(receiver, media);
+        await bot.sendMediaGroup(receiver, media, {
+            reply_to_message_id: message.message_id,
+        });
+
+        console.log(`Completed sending update to: ${receiver}`);
     });
 }
 
 const handler: Handler = async (event, context) => {
+    console.log("------Start sending sale update!------");
     await sendSalesNews();
+    console.log("------Completed sending sale update!------");
     return {
         statusCode: 200,
     };
