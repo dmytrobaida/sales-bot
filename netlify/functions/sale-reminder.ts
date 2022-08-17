@@ -17,7 +17,7 @@ const newsReceivers = process.env.NEWS_RECEIVERS?.split(' ');
 export const handler: Handler = async (event, context) => {
     try {
         console.log("------Start sending sale update!------");
-        const bot = getBot();
+        const bot = await getBot();
         const sales = await getTotalSales();
 
         await sendSaleUpdates(bot, newsReceivers, sales);
@@ -28,11 +28,11 @@ export const handler: Handler = async (event, context) => {
     }
     catch (err) {
         console.log("------Error when sending sale update!------");
-        console.log(JSON.stringify(err));
+        console.log(err.toString());
 
         return {
             statusCode: 500,
-            body: JSON.stringify(err),
+            body: err.toString(),
         };
     }
 };

@@ -11,9 +11,14 @@ import getBot from '../../bot/index.js';
 export const handler: Handler = async (event, context) => {
     try {
         console.log("------Handling webhook from telegram api!------");
+
+        if (event.body == null) {
+            // throw new Error("Body is empty!");
+        }
+
         const message = JSON.parse(event.body);
 
-        const bot = getBot();
+        const bot = await getBot();
         await bot.handleUpdate(message);
 
         console.log("------Completed handling webhook from telegram api!------");
@@ -24,11 +29,11 @@ export const handler: Handler = async (event, context) => {
     }
     catch (err) {
         console.log("------Error when handling webhook from telegram api!------");
-        console.log(JSON.stringify(err));
+        console.log(err.toString());
 
         return {
             statusCode: 500,
-            body: JSON.stringify(err),
+            body: err.toString(),
         };
     }
 };
