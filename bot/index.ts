@@ -10,7 +10,7 @@ const adminChatId = process.env.ADMIN_CHAT_ID;
 const bot = new Telegraf(token);
 
 enum CTCommand {
-    getSales = 'get-sales',
+    getSales = 'getsales',
     register = 'register'
 }
 
