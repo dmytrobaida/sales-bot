@@ -1,13 +1,15 @@
 import { Telegraf } from "telegraf";
 import { InputMediaPhoto } from "telegraf/typings/core/types/typegram";
 
-import { SaleEntity } from "store-parsers/types";
+import { getTotalSales } from "../store-parsers/index.js";
 
-export async function sendSaleUpdates(bot: Telegraf, newsReceivers: string[], sales: SaleEntity[]) {
+export async function sendSaleUpdates(bot: Telegraf, newsReceivers: string[]) {
     console.log(`News receivers: ${JSON.stringify(newsReceivers)}`);
     if (newsReceivers == null) {
         return;
     }
+
+    const sales = await getTotalSales();
 
     console.log(`Sales: ${JSON.stringify(sales)}`);
 
