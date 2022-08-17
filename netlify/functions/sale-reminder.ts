@@ -1,6 +1,12 @@
+import 'dotenv/config';
+
 import { Handler } from "@netlify/functions";
 
+import { getTotalSales } from '../../store-parsers/index.js';
 import getBot from '../../bot/index.js';
+import { sendSaleUpdates } from '../../bot/utils.js';
+
+const newsReceivers = process.env.NEWS_RECEIVERS?.split(' ');
 
 // bot.onText(/\/register/, (msg) => {
 //     const chatId = msg.chat.id;
@@ -10,20 +16,18 @@ import getBot from '../../bot/index.js';
 
 export const handler: Handler = async (event, context) => {
     try {
-        console.log("------Handling webhook from telegram api!------");
-        const message = JSON.parse(event.body);
-
+        console.log("------Start sending sale update!------");
         const bot = getBot();
-        await bot.handleUpdate(message);
+        const sales = await getTotalSales();
 
-        console.log("------Completed handling webhook from telegram api!------");
+        await sendSaleUpdates(bot, newsReceivers, sales);
 
         return {
             statusCode: 200,
         };
     }
     catch (err) {
-        console.log("------Error when handling webhook from telegram api!------");
+        console.log("------Error when sending sale update!------");
         console.log(JSON.stringify(err));
 
         return {
