@@ -12,13 +12,14 @@ export const handler: Handler = async (event, context) => {
     try {
         console.log("------Handling webhook from telegram api!------");
 
+        const bot = await getBot();
+
         if (event.body == null) {
-            // throw new Error("Body is empty!");
+            throw new Error("Body is empty!");
         }
 
         const message = JSON.parse(event.body);
 
-        const bot = await getBot();
         await bot.handleUpdate(message);
 
         console.log("------Completed handling webhook from telegram api!------");
