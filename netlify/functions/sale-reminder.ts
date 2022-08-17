@@ -17,6 +17,7 @@ const newsReceivers = process.env.NEWS_RECEIVERS?.split(' ');
 export const handler: Handler = async (event, context) => {
     try {
         console.log("------Start sending sale update!------");
+        
         const bot = await getBot();
         const sales = await getTotalSales();
 

@@ -2,15 +2,16 @@ import 'dotenv/config';
 
 import { Telegraf } from 'telegraf';
 
-import os from 'os';
-
 const token = process.env.TELEGRAM_API_TOKEN;
+const bot = new Telegraf(token);
 
-export default async function getBot() {
-    const bot = new Telegraf(token);
-    await bot.launch();
+export default async function getBot(setHook: boolean = false, hookUrl?: string) {
+    const webhook = await bot.telegram.getWebhookInfo();
 
-    console.log(os.hostname());
+    if (setHook && hookUrl != null && (webhook?.url == null || webhook.url === '')) {
+        console.log(`Setting webhook url ${hookUrl}`);
+        await bot.telegram.setWebhook(hookUrl);
+    }
 
     // bot.on()
 
