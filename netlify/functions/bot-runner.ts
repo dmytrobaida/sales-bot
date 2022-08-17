@@ -36,9 +36,9 @@ async function sendSalesNews() {
             caption: `Назва: ${sl.productName}\nЗнижка: ${sl.discount}\nЦіна без знижки: ${sl.regularPrice}\nЦіна зі знижкою: ${sl.salePrice}\nПосилання: ${sl.productLink}`,
         }));
 
-        await bot.sendMediaGroup(receiver, media, {
-            reply_to_message_id: message.message_id,
-        });
+        for (let i = 0; i < media.length; i += 10) {
+            await bot.sendMediaGroup(receiver, media.slice(i, i + 10));
+        }
 
         console.log(`Completed sending update to: ${receiver}`);
     });
@@ -52,5 +52,7 @@ const handler: Handler = async (event, context) => {
         statusCode: 200,
     };
 };
+
+sendSalesNews();
 
 export { handler };
