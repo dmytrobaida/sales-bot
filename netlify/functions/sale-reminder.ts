@@ -8,12 +8,6 @@ import { sendSaleUpdates } from '../../bot/utils.js';
 
 const newsReceivers = process.env.NEWS_RECEIVERS?.split(' ');
 
-// bot.onText(/\/register/, (msg) => {
-//     const chatId = msg.chat.id;
-//     console.log(msg);
-//     bot.sendMessage(adminChatId, `Користувач ID:${chatId} хоче приєднатися до боту!`);
-// });
-
 export const handler: Handler = async (event, context) => {
     try {
         console.log("------Start sending sale update!------");

@@ -13,7 +13,10 @@ export default async function getBot(setHook: boolean = false, hookUrl?: string)
         await bot.telegram.setWebhook(hookUrl);
     }
 
-    // bot.on()
+    bot.command('register', (ctx) => {
+        console.log(ctx.message);
+        ctx.reply(`Користувач ID:${ctx.chat.id} хоче приєднатися до боту!`)
+    })
 
     return bot;
 }
