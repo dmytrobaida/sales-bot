@@ -1,2 +1,2 @@
-[functions."bot-runner"]
+[functions."sale-reminder"]
 schedule = "0 6,12,17 * * *"
