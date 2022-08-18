@@ -2,12 +2,21 @@ import 'dotenv/config';
 
 import { Telegraf } from 'telegraf';
 import { BotCommand } from 'telegraf/typings/core/types/typegram';
+import { Client, query } from 'faunadb';
 
 import { sendSaleUpdates } from './utils.js';
 
 const token = process.env.TELEGRAM_API_TOKEN;
 const adminChatId = process.env.ADMIN_CHAT_ID;
+const faunaDbsecret = process.env.FAUNA_DB_SECRET;
+
 const bot = new Telegraf(token);
+const client = new Client({
+    secret: faunaDbsecret,
+    domain: 'db.fauna.com',
+    port: 443,
+    scheme: 'https',
+});
 
 enum CTCommand {
     getSales = 'getsales',
@@ -35,6 +44,12 @@ export default async function getBot(setHook: boolean = false, hookUrl?: string)
     bot.command(CTCommand.register, async (ctx) => {
         console.log(ctx.message);
         await ctx.telegram.sendMessage(adminChatId, `Користувач ID:${ctx.chat.id} хоче приєднатися до боту!`);
+
+        await client.query(query.Create(query.Collection('news_receivers', {
+            data: {
+                chatId: ctx.chat.id,
+            }
+        })))
     });
 
     bot.command(CTCommand.getSales, async (ctx) => {
