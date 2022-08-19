@@ -2,8 +2,8 @@ import 'dotenv/config';
 
 import { Handler } from "@netlify/functions";
 
-import getBot from '../../bot/index.js';
-import { sendSaleUpdates } from '../../bot/utils.js';
+import getBot from 'bot';
+import { sendSaleUpdates } from 'bot/utils';
 
 const newsReceivers = process.env.NEWS_RECEIVERS?.split(' ');
 

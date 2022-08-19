@@ -1,33 +1,14 @@
 import 'dotenv/config';
 
 import { Telegraf } from 'telegraf';
-import { BotCommand } from 'telegraf/typings/core/types/typegram';
-import { Client, query } from 'faunadb';
 
-import { sendSaleUpdates } from './utils.js';
+import { sendSaleUpdates } from './utils';
+import db from "./db";
+import { BotCommands } from './constants';
+import { CTCommand } from './types';
+import { AdminChatId, TelegramToken } from 'utils/config';
 
-const token = process.env.TELEGRAM_API_TOKEN;
-const adminChatId = process.env.ADMIN_CHAT_ID;
-const faunaDbsecret = process.env.FAUNA_DB_SECRET;
-
-const bot = new Telegraf(token);
-// const client = new Client({
-//     secret: faunaDbsecret,
-//     domain: "db.us.fauna.com",
-// });
-
-enum CTCommand {
-    getSales = 'getsales',
-    register = 'register'
-}
-
-const botCommands: BotCommand[] = [{
-    command: CTCommand.register,
-    description: 'Реєстрація'
-}, {
-    command: CTCommand.getSales,
-    description: 'Отримати знижки'
-}];
+const bot = new Telegraf(TelegramToken);
 
 export default async function getBot(setHook: boolean = false, hookUrl?: string) {
     const webhook = await bot.telegram.getWebhookInfo();
@@ -37,17 +18,12 @@ export default async function getBot(setHook: boolean = false, hookUrl?: string)
         await bot.telegram.setWebhook(hookUrl);
     }
 
-    await bot.telegram.setMyCommands(botCommands);
+    await bot.telegram.setMyCommands(BotCommands);
 
     bot.command(CTCommand.register, async (ctx) => {
         console.log(ctx.message);
-        await ctx.telegram.sendMessage(adminChatId, `Користувач ID:${ctx.chat.id} хоче приєднатися до боту!`);
-
-        // await client.query(query.Create(query.Collection('news_receivers', {
-        //     data: {
-        //         chatId: ctx.chat.id,
-        //     }
-        // })))
+        await ctx.telegram.sendMessage(AdminChatId, `Користувач ID:${ctx.chat.id} хоче приєднатися до боту!`);
+        await db.add('news_receivers', ctx.chat.id, ctx.chat);
     });
 
     bot.command(CTCommand.getSales, async (ctx) => {

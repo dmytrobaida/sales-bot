@@ -1,5 +1,5 @@
-import getNamSales from "./nam.js";
-import { SaleEntity } from "./types.js";
+import getNamSales from "./nam";
+import { SaleEntity } from "./types";
 
 export async function getTotalSales() {
     const totalSales: SaleEntity[] = [];

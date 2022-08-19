@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { parse } from 'node-html-parser';
 
-import { SaleEntity } from './types.js';
+import { SaleEntity } from './types';
 
 const namSalesUrl = "https://nammakeup.com/en/prices-drop";
 

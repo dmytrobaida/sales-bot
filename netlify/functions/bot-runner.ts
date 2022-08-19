@@ -1,6 +1,6 @@
 import { Handler } from "@netlify/functions";
 
-import getBot from '../../bot/index.js';
+import getBot from 'bot';
 
 export const handler: Handler = async (event, context) => {
     try {
