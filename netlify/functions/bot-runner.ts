@@ -6,7 +6,7 @@ export const handler: Handler = async (event, context) => {
     try {
         console.log("------Handling webhook from telegram api!------");
 
-        const bot = getBot(event.rawUrl);
+        const bot = getBot();
 
         if (event.body == null) {
             throw new Error("Body is empty!");
