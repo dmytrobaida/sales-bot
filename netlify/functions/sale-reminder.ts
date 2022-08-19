@@ -1,17 +1,11 @@
 import { Handler } from "@netlify/functions";
-
-import getBot from 'bot';
-import { sendSaleUpdates } from 'bot/utils';
-import { NewsReceivers } from "utils/config";
-
+import { SaleController } from "controllers";
 
 export const handler: Handler = async (event, context) => {
     try {
         console.log("------Start sending sale update!------");
-        
-        const bot = await getBot();
 
-        await sendSaleUpdates(bot, NewsReceivers);
+        await new SaleController().sendSaleUpdates();
 
         return {
             statusCode: 200,

@@ -1,11 +1,11 @@
 import { BotCommand } from "telegraf/typings/core/types/typegram";
 
-import { CTCommand } from "./types";
+import { BotMenuCommand } from "./types";
 
-export const BotCommands: BotCommand[] = [{
-    command: CTCommand.register,
+export const BotMenuCommands: BotCommand[] = [{
+    command: BotMenuCommand.register,
     description: 'Реєстрація'
 }, {
-    command: CTCommand.getSales,
+    command: BotMenuCommand.getSales,
     description: 'Отримати знижки'
 }];

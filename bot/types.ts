@@ -1,4 +1,4 @@
-export enum CTCommand {
+export enum BotMenuCommand {
     getSales = 'getsales',
     register = 'register'
 }

@@ -1,42 +1,49 @@
-import { Telegraf } from "telegraf";
+import { Telegram } from "telegraf";
 import { InputMediaPhoto } from "telegraf/typings/core/types/typegram";
 
-import { getTotalSales } from "store-parsers";
+import { BotMenuCommands } from "./constants";
 
-export async function sendSaleUpdates(bot: Telegraf, newsReceivers: string[]) {
-    console.log(`News receivers: ${JSON.stringify(newsReceivers)}`);
-    if (newsReceivers == null) {
-        return;
-    }
+type SetupBotOptions = {
+    hookUrl?: string;
+    menuCommands?: typeof BotMenuCommands;
+};
 
-    const sales = await getTotalSales();
+type SendMediaWithCaptionOptions = {
+    chatIds: string[];
+    media: InputMediaPhoto[];
+    caption: string;
+}
 
-    console.log(`Sales: ${JSON.stringify(sales)}`);
+export async function sendMediaWithCaption(bot: Telegram, options: SendMediaWithCaptionOptions) {
+    console.log(`Chat ids to receive media: ${JSON.stringify(options.chatIds)}`);
+    console.log(`Media: ${JSON.stringify(options.media)}`);
 
-    let saleMessage = "Привіт! Лови знижки NAM:)";
+    const promises = options.chatIds.map(chatId => (async () => {
+        console.log(`Sending media with caption to: ${chatId}`);
 
-    // sales.forEach(sl => {
-    //     saleMessage += `\n${sl.productName}, ${sl.discount}, ${sl.salePrice}`;
-    // })
+        const message = await bot.sendMessage(chatId, options.caption);
 
-    const promises = newsReceivers.map(receiver => (async () => {
-        console.log(`Sending update to: ${receiver}`);
-
-        const message = await bot.telegram.sendMessage(receiver, saleMessage);
-        const media: InputMediaPhoto[] = sales.map(sl => ({
-            type: 'photo',
-            media: sl.productImage,
-            caption: `Назва: ${sl.productName}\nЗнижка: ${sl.discount}\nЦіна без знижки: ${sl.regularPrice}\nЦіна зі знижкою: ${sl.salePrice}\nПосилання: ${sl.productLink}`,
-        }));
-
-        for (let i = 0; i < media.length; i += 10) {
-            await bot.telegram.sendMediaGroup(receiver, media.slice(i, i + 10), {
+        for (let i = 0; i < options.media.length; i += 10) {
+            await bot.sendMediaGroup(chatId, options.media.slice(i, i + 10), {
                 reply_to_message_id: message.message_id,
             });
         }
 
-        console.log(`Completed sending update to: ${receiver}`);
+        console.log(`Completed sending media with caption to: ${chatId}`);
     })());
 
     await Promise.all(promises);
 }
+
+export async function setupBot(bot: Telegram, options?: SetupBotOptions) {
+    const webhook = await bot.getWebhookInfo();
+
+    if (options?.hookUrl != null && (webhook?.url == null || webhook.url === '')) {
+        console.log(`Setting webhook url ${options.hookUrl}`);
+        await bot.setWebhook(options.hookUrl);
+    }
+
+    if (options?.menuCommands != null) {
+        await bot.setMyCommands(options.menuCommands);
+    }
+} 
