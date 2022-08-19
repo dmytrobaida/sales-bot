@@ -11,10 +11,12 @@ async function add(collection: string, key: number, data: any) {
     const exists = await client.query(query.Exists(query.Ref(query.Collection(collection), key)));
 
     if (!exists) {
-        await client.query(query.Create(query.Ref(query.Collection('news_receivers'), key), {
+        await client.query(query.Create(query.Ref(query.Collection(collection), key), {
             data: data
         }));
     }
+
+    return !exists;
 }
 
 export default {

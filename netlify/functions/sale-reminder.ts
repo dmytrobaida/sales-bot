@@ -1,11 +1,9 @@
-import 'dotenv/config';
-
 import { Handler } from "@netlify/functions";
 
 import getBot from 'bot';
 import { sendSaleUpdates } from 'bot/utils';
+import { NewsReceivers } from "utils/config";
 
-const newsReceivers = process.env.NEWS_RECEIVERS?.split(' ');
 
 export const handler: Handler = async (event, context) => {
     try {
@@ -13,7 +11,7 @@ export const handler: Handler = async (event, context) => {
         
         const bot = await getBot();
 
-        await sendSaleUpdates(bot, newsReceivers);
+        await sendSaleUpdates(bot, NewsReceivers);
 
         return {
             statusCode: 200,

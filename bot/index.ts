@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 import { Telegraf } from 'telegraf';
 
 import { sendSaleUpdates } from './utils';
@@ -22,8 +20,12 @@ export default async function getBot(setHook: boolean = false, hookUrl?: string)
 
     bot.command(CTCommand.register, async (ctx) => {
         console.log(ctx.message);
-        await ctx.telegram.sendMessage(AdminChatId, `Користувач ID:${ctx.chat.id} хоче приєднатися до боту!`);
-        await db.add('news_receivers', ctx.chat.id, ctx.chat);
+        const added = await db.add('news_receivers', ctx.chat.id, ctx.chat);
+        if (added) {
+            await ctx.telegram.sendMessage(AdminChatId, `Користувач ID:${ctx.chat.id} хоче приєднатися до боту!`);
+        } else {
+            await ctx.telegram.sendMessage(AdminChatId, `Користувач ID:${ctx.chat.id} вже приєднаний до боту!`);
+        }
     });
 
     bot.command(CTCommand.getSales, async (ctx) => {
