@@ -11,6 +11,13 @@ type BotCommand = {
 
 const BotCommands: BotCommand[] = [
     {
+        command: BotMenuCommand.start,
+        handler: async ctx => {
+            console.log(ctx.message);
+            await new UsersController().sendStartGreeting(ctx.chat);
+        }
+    },
+    {
         command: BotMenuCommand.register,
         handler: async ctx => {
             console.log(ctx.message);
@@ -23,7 +30,7 @@ const BotCommands: BotCommand[] = [
             console.log(ctx.message);
             await new SaleController().sendSaleUpdates([ctx.chat.id.toString()]);
         }
-    }
+    },
 ];
 
 export default BotCommands;

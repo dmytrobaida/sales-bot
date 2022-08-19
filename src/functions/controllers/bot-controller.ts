@@ -10,7 +10,7 @@ export class BotController {
     }
 
     async initializeBot(hookUrl: string) {
-        console.log(`Initializing bot with hook url: ${hookUrl}`);
+        console.log(`Initializing bot with hook url: ${hookUrl} and commands: ${JSON.stringify(BotMenuCommands)}`);
 
         await setupBot(this.bot.telegram, {
             hookUrl,
