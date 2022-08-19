@@ -8,7 +8,7 @@ export const handler: Handler = async (event, context) => {
         const deployPayload = JSON.parse(event.body).payload;
         console.log("Payload" + JSON.stringify(deployPayload));
 
-        const siteUrl = deployPayload.site.url;
+        const siteUrl = deployPayload.url;
         console.log(siteUrl);
         const hookUrl = `${siteUrl}/.netlify/functions/${botRunnerFunctionName}`;
         console.log(hookUrl);
