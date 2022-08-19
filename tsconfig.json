@@ -1,13 +1,11 @@
 {
     "compilerOptions": {
-        "outDir": "./dist/",
         "noImplicitAny": true,
         "module": "esnext",
         "moduleResolution": "Node",
         "target": "es2017",
         "jsx": "react",
         "allowJs": true,
-        "allowSyntheticDefaultImports": true,
-        "baseUrl": "./"
+        "allowSyntheticDefaultImports": true
     }
 }

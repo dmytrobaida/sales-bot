@@ -3,4 +3,4 @@ dist
 .env
 .netlify
 
-netlify/functions/test.ts
+test.ts

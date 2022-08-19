@@ -1,2 +1,5 @@
+[functions]
+directory = "src/functions/handlers"
+
 [functions."sale-reminder"]
 schedule = "0 6,12,17 * * *"
