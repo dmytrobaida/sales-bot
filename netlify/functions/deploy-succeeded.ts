@@ -5,22 +5,22 @@ const botRunnerFunctionName = "bot-runner";
 
 export const handler: Handler = async (event, context) => {
     try {
-        const deployPayload = JSON.parse(event.body).payload;
-        console.log("Payload" + JSON.stringify(deployPayload));
+        console.log("------Executing deploy succeeded function!------");
 
-        const siteUrl = deployPayload.url;
-        console.log(siteUrl);
-        const hookUrl = `${siteUrl}/.netlify/functions/${botRunnerFunctionName}`;
-        console.log(hookUrl);
+        const deployPayload = JSON.parse(event.body)?.payload;
+        const siteUrl = deployPayload?.ssl_url;
 
-        await new BotController().initializeBot(hookUrl);
+        if (siteUrl != null) {
+            const hookUrl = `${siteUrl}/.netlify/functions/${botRunnerFunctionName}`;
+            await new BotController().initializeBot(hookUrl);
+        }
 
         return {
             statusCode: 200,
         };
     }
     catch (err) {
-        console.log("------Error when executing function!------");
+        console.log("------Error when executing deploy succeeded function!------");
         console.log(err.toString());
 
         return {
