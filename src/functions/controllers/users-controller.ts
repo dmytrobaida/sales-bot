@@ -24,7 +24,7 @@ export class UsersController {
 
     async sendStartGreeting(chatUser: ChatUser) {
         await this.bot.telegram.sendMessage(chatUser.id, `
-        Привіт, ${chatUser.first_name || 'користувач'}!
-        Вітаю Вас у боті, в якому Ви можете отримувати останні знижки з магазину NAM!`);
+Привіт, ${chatUser.first_name || 'користувач'}!
+Вітаю Вас у боті, в якому Ви можете отримувати останні знижки з магазину NAM!`);
     }
 }

@@ -23,11 +23,11 @@ export class SaleController {
             type: 'photo',
             media: sl.productImage,
             caption: `
-            Назва: ${sl.productName}
-            Знижка: ${sl.discount}
-            Ціна без знижки: ${sl.regularPrice}
-            Ціна зі знижкою: ${sl.salePrice}
-            Посилання: ${sl.productLink}
+Назва: ${sl.productName}
+Знижка: ${sl.discount}
+Ціна без знижки: ${sl.regularPrice}
+Ціна зі знижкою: ${sl.salePrice}
+Посилання: ${sl.productLink}
             `,
         }));
 
