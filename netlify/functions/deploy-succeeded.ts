@@ -5,11 +5,8 @@ const botRunnerFunctionName = "bot-runner";
 
 export const handler: Handler = async (event, context) => {
     try {
-        console.log(event);
-        console.log(context);
-
         const deployPayload = JSON.parse(event.body).payload;
-        console.log(deployPayload);
+        console.log("Payload" + deployPayload);
 
         const siteUrl = deployPayload.site.url;
         console.log(siteUrl);
