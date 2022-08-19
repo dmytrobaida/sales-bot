@@ -4,3 +4,5 @@ dist
 .netlify
 
 test.ts
+
+.DS_Store
