@@ -5,6 +5,7 @@ import en from 'assets/translations/en.json';
 import ua from 'assets/translations/ua.json';
 
 export async function getI18Next(context: Context) {
+    console.log("--------Init i18!--------");
     await i18next
         .use({
             type: 'languageDetector',
