@@ -11,16 +11,17 @@ export interface ExtendedContext extends Context {
     i18: i18n;
 }
 
+bot.use(async (ctx: ExtendedContext, next) => {
+    console.log("Running telegraf middleware!");
+    const i18 = await getI18Next(ctx);
+    ctx.i18 = i18;
+    await next();
+});
+
 for (const bc of BotCommands) {
     bot.command(bc.command, bc.handler);
 }
 
 export default function getBot() {
-    bot.use(async (ctx: ExtendedContext, next) => {
-        const i18 = await getI18Next(ctx);
-        ctx.i18 = i18;
-        await next();
-    });
-    
     return bot;
-}
+};
