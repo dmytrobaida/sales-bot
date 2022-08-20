@@ -1,33 +1,40 @@
-import i18next from "i18next";
+import i18next, { Resource, ResourceLanguage } from "i18next";
 import { Context } from "telegraf";
 
 import en from 'assets/translations/en.json';
 import ua from 'assets/translations/ua.json';
 
-export async function getI18Next(context: Context) {
-    console.log("--------Init i18!--------");
+type GetContextFn = () => Context;
+type Lang = 'en' | 'ua';
+
+const DefaultLang: Lang = 'en';
+const Languages: Record<Lang, ResourceLanguage> = {
+    en: en,
+    ua: ua,
+};
+
+export async function getI18Next(getContext: GetContextFn) {
     await i18next
         .use({
             type: 'languageDetector',
-            init: () => {},
-            cacheUserLanguage: () => {},
+            init: () => { },
+            cacheUserLanguage: () => { },
             detect: () => {
-                const languageCode = context.from.language_code || 'ua';
+                const context = getContext();
+                const languageCode = context.from.language_code || DefaultLang;
                 console.log(`Detected chat language: ${languageCode}`);
                 return languageCode;
             }
         })
         .init({
-            lng: 'en',
             debug: true,
-            resources: {
-                en: {
-                    translation: en,
-                },
-                ua: {
-                    translation: ua,
-                }
-            }
+            fallbackLng: DefaultLang,
+            resources: Object.keys(Languages).reduce((resources, lang: Lang) => {
+                resources[lang] = {
+                    translation: Languages[lang],
+                };
+                return resources;
+            }, {} as Resource),
         });
 
     return i18next;

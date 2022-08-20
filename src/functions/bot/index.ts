@@ -8,13 +8,15 @@ import BotCommands from './commands';
 const bot = new Telegraf(TelegramToken);
 
 export interface ExtendedContext extends Context {
-    i18: i18n;
+    i18?: i18n;
 }
 
 bot.use(async (ctx: ExtendedContext, next) => {
     console.log("Running telegraf middleware!");
-    const i18 = await getI18Next(ctx);
-    ctx.i18 = i18;
+    if (ctx.i18 == null) {
+        const i18 = await getI18Next(() => ctx);
+        ctx.i18 = i18;
+    }
     await next();
 });
 
