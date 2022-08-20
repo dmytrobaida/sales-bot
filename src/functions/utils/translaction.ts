@@ -8,6 +8,8 @@ export async function getI18Next(context: Context) {
     await i18next
         .use({
             type: 'languageDetector',
+            init: () => {},
+            cacheUserLanguage: () => {},
             detect: () => {
                 const languageCode = context.from.language_code || 'ua';
                 console.log(`Detected chat language: ${languageCode}`);
