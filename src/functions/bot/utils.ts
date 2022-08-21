@@ -16,7 +16,6 @@ type SendMediaWithCaptionOptions = {
 
 export async function sendMediaWithCaption(bot: Telegram, options: SendMediaWithCaptionOptions) {
     console.log(`Chat ids to receive media: ${JSON.stringify(options.chatIds)}`);
-    console.log(`Media: ${JSON.stringify(options.media)}`);
 
     const promises = options.chatIds.map(chatId => (async () => {
         console.log(`Sending media with caption to: ${chatId}`);

@@ -14,7 +14,7 @@ const BotCommands: BotCommand[] = [
         command: BotMenuCommand.start,
         handler: async ctx => {
             console.log(ctx.message);
-            await new UsersController().sendStartGreeting(ctx.chat);
+            await new UsersController().sendStartGreeting(ctx.from);
         }
     },
     {
