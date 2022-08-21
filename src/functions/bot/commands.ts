@@ -21,7 +21,7 @@ const BotCommands: BotCommand[] = [
         command: BotMenuCommand.register,
         handler: async ctx => {
             console.log(ctx.message);
-            await new UsersController().addUpdatesReceiver(ctx.chat);
+            await new UsersController().addUpdatesReceiver(ctx.from);
         }
     },
     {
